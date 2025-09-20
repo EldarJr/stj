@@ -1,0 +1,22 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Первая SVG -->
+  <path d="M68.6232 23.0865C68.3664..." fill="#E08CB8"/>
+  <path d="M54.0837 26.865C54.0489..." fill="#E08CB8"/>
+  <path d="M56.2363 22.4217L3.66569..." fill="#46A5AA"/>
+  <!-- ... остальные path из первой svg -->
+
+  <!-- Вторая SVG, обёрнутая в группу -->
+  <g transform="translate(20,20)">
+    <g clip-path="url(#clip0)">
+      <path d="M79.7701 58.454C75.8743..." fill="#F7AD1A"/>
+      <path d="M80.1984 56.4903C78.7621..." fill="#EE8034"/>
+      <!-- ... остальные path из второй svg -->
+    </g>
+  </g>
+
+  <defs>
+    <clipPath id="clip0">
+      <rect width="76.8" height="58.7" fill="white" transform="translate(18.1494 0.565186) rotate(18.0103)"/>
+    </clipPath>
+  </defs>
+</svg>
