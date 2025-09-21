@@ -47,13 +47,13 @@ export default function Header() {
         </div>
 
         <div className="relative">
-          <img onClick={() => navigate("/basket")} src="/bag.svg" alt="Корзина" className="w-6 h-6 cursor-pointer" /> <span onClick={() => navigate("/basket")}className="cursor-pointer absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">4</span>
+          <img onClick={() => navigate("/basket")} src="/bag.svg" alt="Корзина" className="w-6 h-6 cursor-pointer" /> <span onClick={() => navigate("/basket")} className="cursor-pointer absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">4</span>
         </div>
       </div>
 
-    
+
       <div className="hidden lg:flex flex-col">
-       
+
         <div className="bg-[#F7EBE5] w-full">
           <div className="max-w-screen-xl mx-auto flex items-center justify-between h-[48px] px-4">
             <div className="flex gap-6">
@@ -64,7 +64,7 @@ export default function Header() {
             </div>
 
             <div className="flex items-center gap-8">
-        
+
               <div className="relative">
                 <div className="flex flex-row gap-2 items-center">
                   <img src="/loacate.svg" alt="" />
@@ -92,17 +92,17 @@ export default function Header() {
           </div>
         </div>
 
-       
+
         <div className="w-full border-t border-gray-200">
           <div className="max-w-screen-xl mx-auto grid grid-cols-3 items-center px-4 py-3">
-           
+
             <div className="flex items-center gap-6 justify-start">
               <div className="flex items-center gap-2 ">
-                <button className="text-[14px] w-30 font-extralight">СЛАДКИЕ ДНИ</button>
+                <button className="text-[14px] w-30 font-light">СЛАДКИЕ ДНИ</button>
                 <img src="/procent.svg" alt="" className="w-4 h-4" />
               </div>
               <details className="relative">
-                <summary className="text-[14px] w-50 font-extralight list-none p-2 cursor-pointer flex justify-between items-center">
+                <summary className="text-[14px] font-light w-50 font-extralight list-none p-2 cursor-pointer flex justify-between items-center">
                   ПОДАРОЧНЫЕ НАБОРЫ <span><img src="/strelka.svg" alt="" /></span>
                 </summary>
                 <ul className="absolute mt-2 w-60 bg-white border z-30">
@@ -110,20 +110,25 @@ export default function Header() {
                   <li className="font-extralight cursor-pointer border-b p-3" onClick={(e) => HandleClose(e, "/forMerried")}>Свадебное предложение</li>
                 </ul>
               </details>
-              <button onClick={() => navigate("/redyKits")} className="text-[14px] cursor-pointer font-extralight">СОБРАТЬ НАБОР</button>
+              <button onClick={() => navigate("/mnkValue")} className="text-[14px] w-50  cursor-pointer font-light ">Собрать набор </button>
+              {/* <div onClick={() => navigate("/redyKits")} className="w-[1000px]">
+                <img className="text-[14px] w-50  cursor-pointer font-extralight "  src="/sobrat.svg" alt="" />
+              </div> */}
+
+
             </div>
 
-          
+
             <div className="flex justify-center ">
               <img onClick={() => navigate("/")} src="/mainLogo.svg" alt="Логотип" className="w-24 h-auto cursor-pointer" />
             </div>
 
-          
+
             <div className="flex items-center gap-6 justify-end">
-              <button onClick={() => navigate("/madeNewDisyn")} className="text-[14px] cursor-pointer font-extralight">СОЗДАТЬ ДИЗАЙН</button>
+              <button onClick={() => navigate("/madeNewDisyn")} className="text-[14px] cursor-pointer font-light">СОЗДАТЬ ДИЗАЙН</button>
 
               <details className="relative">
-                <summary className="text-[14px] font-extralight list-none p-2 cursor-pointer flex justify-between items-center">
+                <summary className="text-[14px] font-light list-none p-2 cursor-pointer flex justify-between items-center">
                   КОМПАНИЯМ <span><img src="/strelka.svg" alt="" /></span>
                 </summary>
                 <ul className="absolute mt-2 w-60 bg-white border z-30">
@@ -133,8 +138,8 @@ export default function Header() {
               </details>
 
               <details className="relative">
-                <summary className="text-[14px] font-extralight list-none p-2 cursor-pointer flex justify-between items-center">
-                  ВЕСЬ КАТАЛОГ <span><img src="/strelka.svg" alt="" /></span>
+                <summary className="text-[14px] font-extralight list-none p-2  cursor-pointer flex justify-between items-center">
+                  ВЕСЬ КАТАЛОГ <span ><img src="/strelka.svg" alt="" /></span>
                 </summary>
                 <ul className="absolute mt-2 right-0 w-60 bg-white border z-30">
                   <li onClick={(e) => HandleClose(e, "/")} className="font-extralight cursor-pointer border-b p-3">Пирожные макарон</li>

@@ -13,7 +13,6 @@ import TeasteGuarantee from "../../pages/TeasteGuarantee.jsx";
 import Delevery from "../../pages/Delevery.jsx";
 import CorporateGifts from "../../pages/CorporateGifts.jsx";
 import RedyKits from "../../pages/RedyKits.jsx";
-import BigDelevery from "../../pages/BigDelevery.jsx";
 import DessertCatalog from "../../pages/DessertCatalog.jsx";
 import ForMerried from "../../pages/GiftKits/forMerried.jsx";
 import Card from "../../shared/Card.jsx";
@@ -38,7 +37,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/corporateGifts" element={<CorporateGifts />} />
         <Route path="/redyKits" element={<RedyKits />} />
         <Route path="/madeNewDisyn" element={<MadeNewDisyn />} />
-        <Route path="/bigDelevery" element={<BigDelevery />} />
+        {/* <Route path="/bigDelevery" element={<BigDelevery />} /> */}
         <Route path="/dessertCatalog" element={<DessertCatalog />} />
         <Route path="/forMerried" element={<ForMerried />} />
         <Route path="/card" element={<Card />} />
@@ -47,6 +46,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/dessertCatalog" element={<DessertCatalog />} />
         <Route path="/mnkValue" element={<MnkValue />} />
         <Route path="/uc" element={<UC />} />
+        
        
       </Routes>
 
