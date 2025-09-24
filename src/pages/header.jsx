@@ -110,7 +110,7 @@ export default function Header() {
                   <li className="font-extralight cursor-pointer border-b p-3" onClick={(e) => HandleClose(e, "/forMerried")}>Свадебное предложение</li>
                 </ul>
               </details>
-              <button onClick={() => navigate("/mnkValue")} className="text-[14px] w-50  cursor-pointer font-light ">Собрать набор </button>
+              <button onClick={() => navigate("/mnkValue")} className="text-[14px] w-50  cursor-pointer font-light "> СОБРАТЬ НАБОР </button>
               {/* <div onClick={() => navigate("/redyKits")} className="w-[1000px]">
                 <img className="text-[14px] w-50  cursor-pointer font-extralight "  src="/sobrat.svg" alt="" />
               </div> */}

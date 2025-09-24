@@ -20,6 +20,8 @@ import News from "../../pages/News.jsx";
 import NewsCard from "../../pages/NewsCard.jsx";
 import MnkValue from "../../pages/MadeNewKits/MnkValue.jsx";
 import UC from "../../pages/GiftKits/UC.jsx";
+import MnkDelis from "../../pages/MadeNewKits/MnkDelis.jsx";
+import MnkDop from "../../pages/MadeNewKits/Mnk.Dop.jsx";
 import "../styles/index.css";
 
 
@@ -45,9 +47,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/newsCard" element={<NewsCard />} />
         <Route path="/dessertCatalog" element={<DessertCatalog />} />
         <Route path="/mnkValue" element={<MnkValue />} />
+        <Route path="/mnkDelis" element={<MnkDelis />} />
+        <Route path="/mnkDop" element={<MnkDop />} />
         <Route path="/uc" element={<UC />} />
-        
-       
+
       </Routes>
 
       <Footer />
