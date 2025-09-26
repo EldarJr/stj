@@ -29,6 +29,13 @@ export default function Header() {
     }
   }
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDessertCatalogOpen, setIsDessertCatalogOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
 
 
 
@@ -36,7 +43,7 @@ export default function Header() {
     <header className="w-full ">
 
       <div className="flex items-center justify-between bg-[#F7EBE5] px-4 py-2 h-[90px] lg:hidden">
-        <button>
+        <button onClick={toggleMenu}>
           <img src="/burger.svg" alt="menu" className="w-6 h-6" />
         </button>
 
@@ -49,6 +56,92 @@ export default function Header() {
         <div className="relative">
           <img onClick={() => navigate("/basket")} src="/bag.svg" alt="Корзина" className="w-6 h-6 cursor-pointer" /> <span onClick={() => navigate("/basket")} className="cursor-pointer absolute -top-2 -right-2 bg-black text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">4</span>
         </div>
+
+        {isMenuOpen && (
+          <div className="fixed inset-0 z-50 flex items-start justify-start mt-23 ml-2  bg-opacity-0">
+            <div className="relative bg-[#F7EBE5] w-full max-w-sm h-full max-h-[85vh] overflow-y-auto rounded-lg p-6">
+              <button onClick={toggleMenu} className="absolute top-4 left-4 text-gray-500 hover:text-gray-700 ">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+
+
+              <div className="flex flex-col text-center mt-2">
+                <a href="#" className="py-4 border-b border-gray-400">
+                  ГОТОВЫЕ НАБОРЫ
+                </a>
+                <a href="#" className="py-4 border-b border-gray-400">
+                  СОБРАТЬ СВОЙ НАБОР
+                </a>
+                <a href="#" className="py-4 border-b border-gray-400 flex justify-center gap-3 items-center">
+                  АКЦИИ <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">%</span>
+                </a>
+
+                <div className="w-full">
+                  <a
+                    href="#"
+                    className="py-4 border-b border-gray-400 flex justify-center gap-3 items-center"
+                    onClick={(e) => {
+                      e.preventDefault(); // Prevents the page from reloading
+                      setIsDessertCatalogOpen(!isDessertCatalogOpen);
+                    }}
+                  >
+                    КАТАЛОГ ДЕСЕРТОВ
+                    <svg
+                      className="w-4 h-4 text-gray-400 transform transition-transform"
+                      style={{ transform: isDessertCatalogOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </a>
+                  {isDessertCatalogOpen && (
+                    <div className="flex flex-col text-sm text-gray-600 pl-4 mt-2">
+                      <a href="#" className="py-2">Пирожные макарон</a>
+                      <a href="#" className="py-2">Эклеры</a>
+                      <a href="#" className="py-2">Вафельные трубочки</a>
+                      <a href="#" className="py-2">Профитроли</a>
+                    </div>
+                  )}
+                </div>
+
+                <a href="#" className="py-4 border-b border-gray-400 mt-4">
+                  КОРПОРАТИВНЫЕ ПОДАРКИ
+                </a>
+                <a href="#" className="py-4 border-b border-gray-400">
+                  ОПТОВИКАМ
+                </a>
+
+                <div className="flex flex-col text-gray-700 text-sm mt-4">
+                  <a href="#" className="py-2">Свадебные предложения</a>
+                  <a href="#" className="py-2">Наборы с печатью</a>
+                  <a href="#" className="py-2">Гарантии вкуса и свежести</a>
+                  <a href="#" className="py-2">Доставка и оплата</a>
+                  <a href="#" className="py-2">Контакты</a>
+                </div>
+              </div>
+
+              <div className="flex flex-col border-t border-gray-400 items-center mt-5 pt-3">
+                <span className="font-semibold text-lg">8 812 309-82-88</span>
+                <div className="flex gap-4 mt-4">
+                  <a href="#" aria-label="Instagram">
+                    <img src="/footer/f.4.svg" alt="" className="w-6 h-6" />
+                  </a>
+                  <a href="#" aria-label="Facebook">
+                    <img src="/footer/f.5.svg" alt="" className="w-6 h-6" />
+                  </a>
+                  <a href="#" aria-label="VK">
+                    <img src="/footer/f.6.svg" alt="" className="w-6 h-6" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
 
@@ -87,7 +180,7 @@ export default function Header() {
                 <button onClick={() => navigate("/basket")} className="cursor-pointer font-extralight">В корзину</button>
               </div>
 
-              <img src="/twiter.svg" alt="" />
+              <img onClick={() => navigate("/auth")} src="/twiter.svg" alt="" />
             </div>
           </div>
         </div>
@@ -125,16 +218,16 @@ export default function Header() {
 
 
             <div className="flex items-center gap-6 justify-end">
-              <button onClick={() => navigate("/madeNewDisyn")} className="text-[14px] cursor-pointer font-light">СОЗДАТЬ ДИЗАЙН</button>
+              <button onClick={() => navigate("/vp")} className="text-[14px] cursor-pointer font-light">СОЗДАТЬ ДИЗАЙН</button>
 
               <details className="relative">
-                <summary className="text-[14px] font-light list-none p-2 cursor-pointer flex justify-between items-center">
+                <summary onClick={() => navigate("/error")} className="text-[14px] font-light list-none p-2 cursor-pointer flex justify-between items-center">
                   КОМПАНИЯМ <span><img src="/strelka.svg" alt="" /></span>
                 </summary>
-                <ul className="absolute mt-2 w-60 bg-white border z-30">
+                {/* <ul className="absolute mt-2 w-60 bg-white border z-30">
                   <li className="font-extralight cursor-pointer border-b p-3"></li>
                   <li className="font-extralight cursor-pointer border-b p-3"></li>
-                </ul>
+                </ul> */}
               </details>
 
               <details className="relative">
@@ -142,10 +235,10 @@ export default function Header() {
                   ВЕСЬ КАТАЛОГ <span ><img src="/strelka.svg" alt="" /></span>
                 </summary>
                 <ul className="absolute mt-2 right-0 w-60 bg-white border z-30">
-                  <li onClick={(e) => HandleClose(e, "/")} className="font-extralight cursor-pointer border-b p-3">Пирожные макарон</li>
-                  <li onClick={(e) => HandleClose(e, "/")} className="font-extralight cursor-pointer border-b p-3">Эклеры</li>
-                  <li onClick={(e) => HandleClose(e, "/")} className="font-extralight cursor-pointer border-b p-3">Вафельные трубочки</li>
-                  <li onClick={(e) => HandleClose(e, "/")} className="font-extralight cursor-pointer border-b p-3">Профитроли</li>
+                  <li onClick={(e) => HandleClose(e, "/errorTwo")} className="font-extralight cursor-pointer border-b p-3">Пирожные макарон</li>
+                  <li onClick={(e) => HandleClose(e, "/errorTwo")} className="font-extralight cursor-pointer border-b p-3">Эклеры</li>
+                  <li onClick={(e) => HandleClose(e, "/errorTwo")} className="font-extralight cursor-pointer border-b p-3">Вафельные трубочки</li>
+                  <li onClick={(e) => HandleClose(e, "/errorTwo")} className="font-extralight cursor-pointer border-b p-3">Профитроли</li>
                 </ul>
               </details>
             </div>

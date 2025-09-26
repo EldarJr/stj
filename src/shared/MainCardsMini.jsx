@@ -1,8 +1,9 @@
-export default function MainCardsMini({ bgColor, bgColorMini, p, img, text, miniPos }) {
+export default function MainCardsMini({ onClick, bgColor, bgColorMini, p, img, text, miniPos }) {
   return (
     <div
+      onClick={onClick}
       style={{ backgroundColor: bgColor }}
-      className= " w-[550px] h-[250px] relative rounded-lg overflow-hidden flex flex-col items-center justify-center text-center">
+      className="cursor-pointer w-[550px] h-[250px] relative rounded-lg overflow-hidden flex flex-col items-center justify-center text-center">
       <img src={img} alt="" className="z-0" />
       <img src={bgColorMini} alt="" className="absolute z-10" style={miniPos} />
       <div className="flex flex-col p-4 text-center items-center">

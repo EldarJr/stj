@@ -6,14 +6,7 @@ import { useNavigate } from 'react-router-dom';
 export default function MnkDop() {
     const navigate = useNavigate();
 
-
-    const {
-        selectedKit,
-        dop,
-        addDopMacaron,
-        removeDopMacaron,
-        deleteDopMacaron,
-    } = useMnkStore();
+    const { selectedKit, dop, addDopMacaron, removeDopMacaron, deleteDopMacaron, } = useMnkStore();
 
     const handleAddClick = (macaron) => {
         addDopMacaron(macaron);

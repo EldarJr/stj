@@ -22,6 +22,16 @@ import MnkValue from "../../pages/MadeNewKits/MnkValue.jsx";
 import UC from "../../pages/GiftKits/UC.jsx";
 import MnkDelis from "../../pages/MadeNewKits/MnkDelis.jsx";
 import MnkDop from "../../pages/MadeNewKits/Mnk.Dop.jsx";
+import ValuePrint from "../../pages/ConstructorPrint/ValuePrint.jsx";
+import ChooseImg from "../../pages/ConstructorPrint/ChooseImg.jsx";
+import PrintDop from "../../pages/ConstructorPrint/PrintDop.jsx";
+import Error from "../../shared/Error404.jsx";
+import ErrorTwo from "../../shared/Error.404.2.jsx";
+import Politic from "../../pages/Politic.jsx";
+import Auth from "../../pages/Auth&Login/Auth.jsx";
+import Entrance from "../../pages/Auth&Login/Entrance.jsx";
+import ForgotPass from "../../pages/Auth&Login/ForgotPass.jsx";
+import ForgotPass2 from "../../pages/Auth&Login/ForgotPass2.jsx";
 import "../styles/index.css";
 
 
@@ -50,6 +60,19 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/mnkDelis" element={<MnkDelis />} />
         <Route path="/mnkDop" element={<MnkDop />} />
         <Route path="/uc" element={<UC />} />
+        <Route path="/vp" element={<ValuePrint />} />
+        <Route path="/chooseImg" element={<ChooseImg />} />
+        <Route path="/print" element={<PrintDop />} />
+        <Route path="/error" element={<Error />} />
+        <Route path="/errorTwo" element={<ErrorTwo />} />
+        <Route path="/politic" element={<Politic />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path="/entrance" element={<Entrance />} />
+        <Route path="/forgotPass" element={<ForgotPass />} />
+          <Route path="/forgotPass2" element={<ForgotPass2 />} />
+
+
+
 
       </Routes>
 

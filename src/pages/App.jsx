@@ -168,14 +168,14 @@ export default function App() {
 
       <div className="grid gap-6 justify-center grid-cols-[repeat(auto-fit,minmax(200px,550px))]">
         <div className="hidden md:flex flex-col items-center gap-y-6">
-          <MainCardsMini miniPos={{}} bgColorMini={"/mainMiniCardsTr.1.svg"} bgColor={"#FFDBC3"} img={"/mainMiniCards1.svg"} text={"Готовые наборы"} p={"Готовые наборы со скидкой. Вы можете подобрать набор на подходящий случай."} />
-          <MainCardsMini miniPos={{ transform: 'rotate(180deg)' }} bgColorMini={"/mainMiniCardsTr.2.svg"} bgColor={"#B4EAB3"} img={"/mainMiniCards3.svg"} text={"Набор с индивидуальной печатью"} p={"Собрать набор макарон с уникальным дизайном. "} />
-          <MainCardsMini miniPos={{}} bgColorMini={"/mainMiniCardsTr.1.svg"} bgColor={"#A8DCDF"} img={"/mainMiniCards5.svg"} text={"Корпоративные подарки"} p={"От 85 руб за шт. С уникальным дизайном. Приятный комплимент для коллег и партнеров"} />
+          <MainCardsMini onClick={() => navigate('/redyKits')}  miniPos={{}} bgColorMini={"/mainMiniCardsTr.1.svg"} bgColor={"#FFDBC3"} img={"/mainMiniCards1.svg"} text={"Готовые наборы"} p={"Готовые наборы со скидкой. Вы можете подобрать набор на подходящий случай."} />
+          <MainCardsMini onClick={() => navigate('/vp')} miniPos={{ transform: 'rotate(180deg)' }} bgColorMini={"/mainMiniCardsTr.2.svg"} bgColor={"#B4EAB3"} img={"/mainMiniCards3.svg"} text={"Набор с индивидуальной печатью"} p={"Собрать набор макарон с уникальным дизайном. "} />
+          <MainCardsMini onClick={() => navigate('/corporateGifts')} miniPos={{}} bgColorMini={"/mainMiniCardsTr.1.svg"} bgColor={"#A8DCDF"} img={"/mainMiniCards5.svg"} text={"Корпоративные подарки"} p={"От 85 руб за шт. С уникальным дизайном. Приятный комплимент для коллег и партнеров"} />
         </div>
         <div className="hidden md:flex flex-col items-center gap-y-6">
-          <MainCardsMini miniPos={{}} bgColorMini={"/mainMiniCardsTr.2.svg"} bgColor={"#FFC2CC"} img={"/mainMiniCards2.svg"} text={"Собрать свой набор"} p={"Выбрать количество макарун, и выбрать вкусы"} />
-          <MainCardsMini miniPos={{ transform: 'rotate(180deg)' }} bgColorMini={"/mainMiniCardsTr.1.svg"} bgColor={"#FDD5CD"} img={"/mainMiniCards4.svg"} text={"Свадебные предложения"} p={"Нежные пирожные макаронс с разными вкусами для украшения вашего свадебного торжества"} />
-          <MainCardsMini miniPos={{}} bgColorMini={"/mainMiniCardsTr.2.svg"} bgColor={"#C4C6EC"} img={"/mainMiniCards6.svg"} text={"Оптовые поставки"} p={"Посмотрите условия сотрудничества и отзывы."} />
+          <MainCardsMini onClick={() => navigate('/mnkValue')} miniPos={{}} bgColorMini={"/mainMiniCardsTr.2.svg"} bgColor={"#FFC2CC"} img={"/mainMiniCards2.svg"} text={"Собрать свой набор"} p={"Выбрать количество макарун, и выбрать вкусы"} />
+          <MainCardsMini onClick={() => navigate('/forMerried')} miniPos={{ transform: 'rotate(180deg)' }} bgColorMini={"/mainMiniCardsTr.1.svg"} bgColor={"#FDD5CD"} img={"/mainMiniCards4.svg"} text={"Свадебные предложения"} p={"Нежные пирожные макаронс с разными вкусами для украшения вашего свадебного торжества"} />
+          <MainCardsMini onClick={() => navigate('/uc')} miniPos={{}} bgColorMini={"/mainMiniCardsTr.2.svg"} bgColor={"#C4C6EC"} img={"/mainMiniCards6.svg"} text={"Оптовые поставки"} p={"Посмотрите условия сотрудничества и отзывы."} />
         </div>
 
 

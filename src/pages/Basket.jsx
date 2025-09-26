@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useBasketStore } from "../app/state/useBasketStore";
+import { useNavigate } from "react-router";
 
 export default function Basket() {
     const basket = useBasketStore((state) => state.basket);
@@ -13,6 +14,8 @@ export default function Basket() {
     const discount = 0;
     const deliveryCost = 400;
     const finalTotal = totalCost - discount + deliveryCost;
+
+    const navigate = useNavigate()
 
     return (
         <div className="flex flex-col items-center justify-center bg-[#F7F7F7] px-4 sm:px-6 lg:px-8">
@@ -313,9 +316,9 @@ export default function Basket() {
                                 <h1 className="text-red-500 text-[20px] font-semibold">{finalTotal} руб.</h1>
                             </div>
                             <button
-                                className="bg-[#E7426A] cursor-pointer hover:bg-red-600 text-white rounded-lg font-medium py-3 px-10 transition-colors duration-200 ease-in-out w-full max-w-sm"
+                            className="bg-[#E7426A] cursor-pointer hover:bg-red-600 text-white rounded-lg font-medium py-3 px-10 transition-colors duration-200 ease-in-out w-full max-w-sm"
                             >Оформить заказ</button>
-                            <p className="w-full max-w-sm text-[12px] mt-5 text-center px-2">Нажимая на кнопку "Оформить заказ" Я принимаю и соглашаюсь с Договором оферты и разрешаю обработку моих персональных данных в соответствии с Политикой конфиденциальности</p>
+                            <p onClick={() => navigate("/politic") } className="w-full  text-[12px] mt-5 text-start px-2 cursor-prointer">Нажимая на кнопку "Оформить заказ" Я принимаю и соглашаюсь с <span className="text-blue-500">Договором оферты </span > и разрешаю обработку моих персональных данных в соответствии с <span className="text-blue-500">Политикой конфиденциальности</span> </p>
                         </div>
                     </div>
                 </div>
