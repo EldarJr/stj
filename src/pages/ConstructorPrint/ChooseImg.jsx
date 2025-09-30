@@ -33,7 +33,7 @@ export default function ChooseImg() {
 
     const handleNextClick = () => {
         if (isCountFull) {
-            navigate("/printDop");
+            navigate("/print");
         }
     };
 

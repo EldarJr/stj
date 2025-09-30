@@ -17,6 +17,53 @@ export default function Basket() {
 
     const navigate = useNavigate()
 
+    const renderComplexItemDetails = (item) => {
+        if (!item.isComplex || !item.details) return null;
+
+        const { kitType, mainItems, dopItems, printItems } = item.details;
+        let mainContent = null;
+        
+        if (kitType === 'mnk' && mainItems && mainItems.length > 0) {
+            mainContent = (
+                <ul className="list-disc list-inside ml-2 text-sm text-gray-600">
+                    {mainItems.map(mac => (
+                        <li key={mac.id}>{mac.name} - {mac.quantity} шт.</li>
+                    ))}
+                </ul>
+            );
+        } else if (kitType === 'print' && printItems && printItems.length > 0) {
+            mainContent = (
+                <ul className="list-disc list-inside ml-2 text-sm text-gray-600">
+                    {printItems.map(print => (
+                        <li key={print.id}>{print.name}</li>
+                    ))}
+                </ul>
+            );
+        }
+        
+        const dopContent = dopItems && dopItems.length > 0 ? (
+            <>
+                <h4 className="font-semibold text-xs mt-2 text-gray-700">Дополнительно:</h4>
+                <ul className="list-disc list-inside ml-2 text-xs text-gray-500">
+                    {dopItems.map(dopItem => (
+                        <li key={dopItem.id || dopItem.uniqueId}>
+                            {dopItem.name} {dopItem.quantity ? ` - ${dopItem.quantity} шт.` : ''}
+                        </li>
+                    ))}
+                </ul>
+            </>
+        ) : null;
+        
+
+        return (
+            <div className="w-full mt-3 pt-3 border-t border-gray-100">
+                <h3 className="font-semibold mb-1 text-sm text-gray-700">Состав набора:</h3>
+                {mainContent}
+                {dopContent}
+            </div>
+        );
+    };
+
     return (
         <div className="flex flex-col items-center justify-center bg-[#F7F7F7] px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col items-center mt-5 mb-8">
@@ -43,33 +90,40 @@ export default function Basket() {
                         ) : (
                             <div className="flex flex-col gap-4">
                                 {basket.map((item) => (
-                                    <div key={item.id} className="relative hidden  lg:flex md:flex flex-col sm:flex-row items-center justify-between border border-gray-200 rounded-md p-3 sm:p-5">
+                                    <div key={item.id} className="relative hidden lg:flex md:flex flex-col items-center justify-between border border-gray-200 rounded-md p-3 sm:p-5">
                                         <button onClick={() => removeFromBasket(item.id)} className="absolute top-2 right-2 text-sm text-white">
                                             <img src="/Basket/b.2.svg" alt="Удалить товар" />
                                         </button>
-                                        <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 items-center mb-2 sm:mb-0 text-center sm:text-left">
+                                        <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 items-center mb-2 sm:mb-0 text-center sm:text-left w-full">
                                             <img src={item.img} alt={item.name} width={80} height={80} className="rounded-md flex-shrink-0" />
-                                            <h2 className="font-medium text-lg">{item.name}</h2>
-                                        </div>
-                                        <div className="flex items-center gap-2 mx-0 sm:mx-4 mb-2 sm:mb-0 flex-shrink-0">
-                                            <button onClick={() => decreaseQuantity(item.id)} className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-md hover:bg-gray-100 text-lg" >-</button>
-                                            <span className="text-xl px-2">{item.quantity}</span>
-                                            <button onClick={() => increaseQuantity(item.id)} className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-md hover:bg-gray-100 text-lg">+</button>
-                                        </div>
-                                        <div className="flex flex-row gap-2 text-lg whitespace-nowrap flex-shrink-0 mb-2 sm:mb-0">
-                                            Цена:
-                                            <span className="text-red-500 font-semibold">{item.price} руб.</span>
+                                            <div className="flex flex-col flex-grow items-start">
+                                                <h2 className="font-medium text-lg">{item.name}</h2>
+                                                {renderComplexItemDetails(item)}
+                                            </div>
+                                            <div className="flex items-center gap-2 mx-0 sm:mx-4 mb-2 sm:mb-0 flex-shrink-0">
+                                                <button onClick={() => decreaseQuantity(item.id)} className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-md hover:bg-gray-100 text-lg" >-</button>
+                                                <span className="text-xl px-2">{item.quantity}</span>
+                                                <button onClick={() => increaseQuantity(item.id)} className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-md hover:bg-gray-100 text-lg">+</button>
+                                            </div>
+                                            <div className="flex flex-row gap-2 text-lg whitespace-nowrap flex-shrink-0 mb-2 sm:mb-0">
+                                                Цена:
+                                                <span className="text-red-500 font-semibold">{item.price} руб.</span>
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
 
                                 {basket.map((item) => (
-                                    <div key={item.id} className="lg:hidden md:hidden  relative flex flex-col p-3 border border-gray-200 rounded-md">
-                                        {/* Верхний ряд: изображение, название и кнопка удаления */}
+                                    
+                                    <div key={item.id} className="lg:hidden md:hidden relative flex flex-col p-3 border border-gray-200 rounded-md">
+                                        <h1>hello</h1>
                                         <div className="flex justify-between items-start mb-3">
                                             <div className="flex items-center gap-3">
                                                 <img src={item.img} alt={item.name} width={80} height={80} className="rounded-md flex-shrink-0" />
-                                                <h2 className="font-medium text-lg">{item.name}</h2>
+                                                <div className="flex flex-col">
+                                                    <h2 className="font-medium text-lg">{item.name}</h2>
+                                                    {renderComplexItemDetails(item)}
+                                                </div>
                                             </div>
                                             <button onClick={() => removeFromBasket(item.id)} className="text-gray-400 hover:text-gray-600 transition-colors">
                                                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -78,8 +132,7 @@ export default function Basket() {
                                             </button>
                                         </div>
 
-                                        {/* Нижний ряд: кнопки +/- и цена */}
-                                        <div className="flex justify-between items-center pt-3 border-t border-gray-100"> {/* Добавил верхнюю границу для разделения */}
+                                        <div className="flex justify-between items-center pt-3 border-t border-gray-100">
                                             <div className="flex items-center">
                                                 <button onClick={() => decreaseQuantity(item.id)} className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-md hover:bg-gray-100 text-lg" >-</button>
                                                 <span className="text-xl px-2">{item.quantity}</span>
@@ -290,7 +343,7 @@ export default function Basket() {
                                     <span className="text-gray-700">Оплата картой онлайн</span>
                                 </label>
                                 <label className="flex items-center cursor-pointer">
-                                    <input type="checkbox" name="paymentMethod" value="cash" className="hidden peer" checked />
+                                    <input type="checkbox" name="paymentMethod" value="cash" className="hidden peer"  />
                                     <div className="w-5 h-5 border border-pink-500 bg-pink-500 rounded-sm mr-2 peer-checked:bg-pink-500 peer-checked:border-pink-500 flex items-center justify-center transition-all duration-200">
                                         <svg className="h-4 w-4 text-white opacity-100 transition-opacity duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -316,9 +369,11 @@ export default function Basket() {
                                 <h1 className="text-red-500 text-[20px] font-semibold">{finalTotal} руб.</h1>
                             </div>
                             <button
-                            className="bg-[#E7426A] cursor-pointer hover:bg-red-600 text-white rounded-lg font-medium py-3 px-10 transition-colors duration-200 ease-in-out w-full max-w-sm"
-                            >Оформить заказ</button>
-                            <p onClick={() => navigate("/politic") } className="w-full  text-[12px] mt-5 text-start px-2 cursor-prointer">Нажимая на кнопку "Оформить заказ" Я принимаю и соглашаюсь с <span className="text-blue-500">Договором оферты </span > и разрешаю обработку моих персональных данных в соответствии с <span className="text-blue-500">Политикой конфиденциальности</span> </p>
+                                onClick={() => navigate("/estUs")}
+                                className={` rounded-lg font-medium py-3 px-10 transition-colors duration-200 ease-in-out w-full max-w-sm ${basket.length === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#E7426A] hover:bg-red-600 cursor-pointer text-white'}`}
+                                disabled={basket.length === 0}>Оформить заказ
+                            </button>
+                            <p onClick={() => navigate("/politic")} className="w-full  text-[12px] mt-5 text-start px-2 cursor-prointer">Нажимая на кнопку "Оформить заказ" Я принимаю и соглашаюсь с <span className="text-blue-500">Договором оферты </span > и разрешаю обработку моих персональных данных в соответствии с <span className="text-blue-500">Политикой конфиденциальности</span> </p>
                         </div>
                     </div>
                 </div>
@@ -367,8 +422,12 @@ export default function Basket() {
                             </div>
                             <div className="flex justify-center items-center mb-5">
                                 <button
-                                    className="bg-[#E7426A] cursor-pointer hover:bg-red-600 text-white rounded-lg font-medium py-3 px-10 transition-colors duration-200 ease-in-out w-11/12"
-                                >Оформить заказ</button>
+                                    onClick={() => navigate("/estUs")}
+                                    className={`rounded-lg font-medium py-3 px-10 transition-colors duration-200 ease-in-out w-full max-w-sm ${basket.length === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#E7426A] hover:bg-red-600 cursor-pointer text-white'}`}
+                                    disabled={basket.length === 0}
+                                >
+                                    Оформить заказ
+                                </button>
                             </div>
                         </div>
                     )}

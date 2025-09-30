@@ -1,13 +1,14 @@
 import { create } from 'zustand';
 
 export const useMnkStore = create((set, get) => ({
+    // Установим дефолтные значения для набора
     selectedKit: {
         name: '',
         totalQuantity: 0,
         price: 0,
     },
-    cart: [],
-    dop: [],
+    cart: [], // Выбранные макароны для набора
+    dop: [], // Дополнительные товары (открытки, эклеры и т.д.)
 
     setSelectedKit: (kit) => {
         set({ selectedKit: kit, cart: [], dop: [] });
@@ -17,13 +18,11 @@ export const useMnkStore = create((set, get) => ({
         const { selectedKit, cart, dop } = get();
         let total = selectedKit.price;
         total += cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
         total += dop.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
         return total;
     },
 
-
+    // --- Логика для основных макаронов (cart) ---
     addMacaronToCart: (macaronItem) => {
         set((state) => {
             const existingItem = state.cart.find(item => item.id === macaronItem.id);
@@ -42,8 +41,6 @@ export const useMnkStore = create((set, get) => ({
             }
         });
     },
-
-
     removeMacaronFromCart: (macaronId) => {
         set((state) => ({
             cart: state.cart.reduce((newCart, item) => {
@@ -58,21 +55,17 @@ export const useMnkStore = create((set, get) => ({
             }, []),
         }));
     },
-
-
     deleteMacaronFromCart: (macaronId) => {
         set((state) => ({
             cart: state.cart.filter(item => item.id !== macaronId),
         }));
     },
-
-
     getTotalSelected: () => {
         const { cart } = get();
         return cart.reduce((total, item) => total + item.quantity, 0);
     },
 
-
+    // --- Логика для дополнительных товаров (dop) ---
     addDopMacaron: (macaronItem) => {
         set((state) => {
             const existingItem = state.dop.find(item => item.id === macaronItem.id);
@@ -91,7 +84,6 @@ export const useMnkStore = create((set, get) => ({
             }
         });
     },
-
     removeDopMacaron: (macaronId) => {
         set((state) => ({
             dop: state.dop.reduce((newDop, item) => {
@@ -106,10 +98,16 @@ export const useMnkStore = create((set, get) => ({
             }, []),
         }));
     },
-
     deleteDopMacaron: (macaronId) => {
         set((state) => ({
             dop: state.dop.filter(item => item.id !== macaronId),
         }));
     },
+
+    // --- Очистка состояния ---
+    clearMnkStore: () => set({
+        selectedKit: { name: '', totalQuantity: 0, price: 0 },
+        cart: [],
+        dop: []
+    })
 }));

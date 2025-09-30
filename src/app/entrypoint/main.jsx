@@ -32,6 +32,9 @@ import Auth from "../../pages/Auth&Login/Auth.jsx";
 import Entrance from "../../pages/Auth&Login/Entrance.jsx";
 import ForgotPass from "../../pages/Auth&Login/ForgotPass.jsx";
 import ForgotPass2 from "../../pages/Auth&Login/ForgotPass2.jsx";
+import EstimateUs from "../../pages/Estimate/EstimateUs.jsx";
+import EstimateUs2 from "../../pages/Estimate/EstimateUs2.jsx";
+import Th from "../../pages/Estimate/Thanks.jsx";
 import "../styles/index.css";
 
 
@@ -69,7 +72,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/auth" element={<Auth />} />
         <Route path="/entrance" element={<Entrance />} />
         <Route path="/forgotPass" element={<ForgotPass />} />
-          <Route path="/forgotPass2" element={<ForgotPass2 />} />
+        <Route path="/forgotPass2" element={<ForgotPass2 />} />
+        <Route path="/estUs" element={<EstimateUs />} />
+        <Route path="/estUsTwo" element={<EstimateUs2 />} />
+        <Route path="/th" element={<Th />} />
 
 
 

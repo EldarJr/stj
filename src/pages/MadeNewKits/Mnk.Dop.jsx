@@ -1,18 +1,50 @@
 import React from "react";
 import { useMnkStore } from '../../app/state/useMnkStore';
+import { useBasketStore } from '../../app/state/useBasketStore'; // <-- Import Basket Store
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function MnkDop() {
     const navigate = useNavigate();
 
-    const { selectedKit, dop, addDopMacaron, removeDopMacaron, deleteDopMacaron, } = useMnkStore();
+    // Получаем данные и действия из MNK Store
+    const { selectedKit, dop, addDopMacaron, removeDopMacaron, deleteDopMacaron, getTotalPrice, clearMnkStore } = useMnkStore();
+    
+    // Получаем действие из Basket Store
+    const { addToBasket } = useBasketStore();
+
+    // Общая цена только за доп. товары
+    const totalDopPrice = dop.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    // Общая цена за весь набор (для модалки и корзины)
+    const finalKitPrice = getTotalPrice(); 
+    
+    // --- Логика добавления в корзину ---
+    const handleAddToBasket = () => {
+        const kitItem = {
+            id: `mnk-${Date.now()}`, // Уникальный ID для каждого собранного набора
+            name: `Набор "${selectedKit.name}" (${selectedKit.totalQuantity} шт.)`,
+            price: finalKitPrice, // Итоговая цена набора
+            quantity: 1, // Добавляем один набор
+            img: '/Mnk/mnk.15.svg', // Используем стандартное изображение для коробки
+            isComplex: true, // Флаг, указывающий, что это сложный/собранный набор
+            details: {
+                kitType: 'mnk',
+                mainItems: useMnkStore.getState().cart, // Макароны в коробке
+                dopItems: dop // Дополнительные товары
+            }
+        };
+
+        addToBasket(kitItem);
+        // Очищаем состояние конструктора после добавления в корзину
+        clearMnkStore();
+
+        setIsModalOpen(false);
+        setIsModalOpenMini(true);
+    };
 
     const handleAddClick = (macaron) => {
         addDopMacaron(macaron);
     };
-
-    const totalDopPrice = dop.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
     const handleRemoveClick = (id) => {
         deleteDopMacaron(id);
@@ -89,8 +121,8 @@ export default function MnkDop() {
                 <div className="bg-gray-50 rounded-lg shadow-md p-6 flex-shrink-0 lg:w-80 h-full">
                     <div className="text-lg text-center font-medium mb-4">
                         Набор {selectedKit.totalQuantity} шт.
-
-                        <span className="text-red-500"> {totalDopPrice} руб.</span>
+                        {/* Здесь отображаем цену только за доп. товары, общая цена в модалке */}
+                        <span className="text-red-500"> +{totalDopPrice} руб.</span> 
 
                     </div>
                     <hr className="border-gray-200 mb-4" />
@@ -130,52 +162,51 @@ export default function MnkDop() {
 
 
             {isModalOpen && (
-                <div class="fixed inset-0 bg-gray-400 bg-opacity-50 flex items-center justify-center z-50">
-                    <div class="bg-white p-6 md:p-8 lg:p-10 rounded-lg shadow-lg max-w-md w-full relative">
+                <div className="fixed inset-0 bg-gray-400 bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 md:p-8 lg:p-10 rounded-lg shadow-lg max-w-md w-full relative">
 
-                        <button onClick={() => setIsModalOpen(false)} class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 transition-colors duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        <button onClick={() => setIsModalOpen(false)} className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 transition-colors duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
 
-                        <h2 class="text-2xl font-medium text-center mb-6">Ваш выбор:</h2>
+                        <h2 className="text-2xl font-medium text-center mb-6">Ваш выбор:</h2>
 
-                        <div class="flex flex-col space-y-4 text-gray-700">
-                            <div class="flex justify-between items-start font-medium text-lg">
-                                <span>Набор макарон 12 шт.</span>
-                                <span class="text-red-500 whitespace-nowrap">700 руб.</span>
+                        <div className="flex flex-col space-y-4 text-gray-700">
+                            <div className="flex justify-between items-start font-medium text-lg">
+                                <span>Набор макарон {selectedKit.totalQuantity} шт. ({selectedKit.name})</span>
+                                <span className="text-red-500 whitespace-nowrap">{selectedKit.price} руб.</span>
                             </div>
 
-                            <ul class="text-base text-gray-600 pl-4 space-y-1">
-                                <li>Трюфель 2 шт.</li>
-                                <li>Розмарин 3 шт.</li>
-                                <li>Ананас 1 шт.</li>
-                                <li>Кокос 4 шт.</li>
+                            <ul className="text-base text-gray-600 pl-4 space-y-1">
+                                {useMnkStore.getState().cart.map(item => (
+                                    <li key={item.id}>{item.name} {item.quantity} шт.</li>
+                                ))}
                             </ul>
 
-                            <div class="flex flex-col space-y-2 pt-4 border-t border-gray-200">
-                                <div class="flex justify-between items-center text-base">
-                                    <span>Упаковка с цветами</span>
-                                    <span class="text-red-500 whitespace-nowrap">50 руб.</span>
+                            {dop.length > 0 && (
+                                <div className="flex flex-col space-y-2 pt-4 border-t border-gray-200">
+                                    {dop.map(item => (
+                                        <div key={item.id} className="flex justify-between items-center text-base">
+                                            <span>{item.name} x {item.quantity}</span>
+                                            <span className="text-red-500 whitespace-nowrap">{item.price * item.quantity} руб.</span>
+                                        </div>
+                                    ))}
                                 </div>
-                                <div class="flex justify-between items-center text-base">
-                                    <span>Открытка с пожеланием</span>
-                                    <span class="text-red-500 whitespace-nowrap">30 руб.</span>
-                                </div>
-                            </div>
+                            )}
                         </div>
 
-                        <div class="flex justify-between items-center mt-6 pt-4 border-t-2 border-gray-200 font-bold text-xl">
+                        <div className="flex justify-between items-center mt-6 pt-4 border-t-2 border-gray-200 font-bold text-xl">
                             <span>Итого:</span>
-                            <span class="text-red-500">780 руб.</span>
+                            <span className="text-red-500">{finalKitPrice} руб.</span>
                         </div>
 
-                        <div class="flex flex-col sm:flex-row gap-4 mt-6">
-                            <button onClick={() =>{setIsModalOpenMini(true) , setIsModalOpen(false) } } class="flex-1 border-2 border-blue-400 text-blue-500 font-medium py-3 rounded-lg hover:bg-blue-50 transition duration-300">
+                        <div className="flex flex-col sm:flex-row gap-4 mt-6">
+                            <button onClick={handleAddToBasket} className="flex-1 border-2 border-blue-400 text-blue-500 font-medium py-3 rounded-lg hover:bg-blue-50 transition duration-300">
                                 Добавить в корзину
                             </button>
-                            <button onClick={() => navigate("/basket")}  class="flex-1 bg-[#E7426A] text-white font-medium py-3 rounded-lg hover:bg-red-600 transition duration-300">
+                            <button onClick={() => navigate("/basket")} className="flex-1 bg-[#E7426A] text-white font-medium py-3 rounded-lg hover:bg-red-600 transition duration-300">
                                 Оформить сейчас
                             </button>
                         </div>
@@ -184,27 +215,23 @@ export default function MnkDop() {
             )}
 
             {isModalOpenMini && (
-                <div class="fixed inset-0 bg-gray-400 bg-opacity-50 flex items-center justify-center z-50">
-                    <div class="bg-white p-6 md:p-8 lg:p-10 rounded-lg shadow-lg max-w-md w-full relative">
+                <div className="fixed inset-0 bg-gray-400 bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 md:p-8 lg:p-10 rounded-lg shadow-lg max-w-md w-full relative">
 
-                        <button onClick={() => setIsModalOpenMini(false)}class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 transition-colors duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        <button onClick={() => setIsModalOpenMini(false)} className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 transition-colors duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
 
-                       
+                        <h2 className="text-2xl font-bold text-center mb-6">Набор добавлен в корзину!</h2>
 
-                        <h2 class="text-2xl font-bold text-center mb-6">Готово!</h2>
-
-                        
-
-                        <div class="flex flex-col sm:flex-row gap-4 mt-6">
-                            <button onClick={() => navigate("/")} class="flex-1 border-2 border-blue-400 text-blue-500 font-medium py-3 rounded-lg hover:bg-blue-50 transition duration-300">
-                                 На главную 
+                        <div className="flex flex-col sm:flex-row gap-4 mt-6">
+                            <button onClick={() => navigate("/")} className="flex-1 border-2 border-blue-400 text-blue-500 font-medium py-3 rounded-lg hover:bg-blue-50 transition duration-300">
+                                На главную
                             </button>
-                            <button onClick={() => navigate("/basket")} class="flex-1 bg-[#E7426A] text-white font-medium py-3 rounded-lg hover:bg-red-600 transition duration-300">
-                               Перейти в корзину
+                            <button onClick={() => navigate("/basket")} className="flex-1 bg-[#E7426A] text-white font-medium py-3 rounded-lg hover:bg-red-600 transition duration-300">
+                                Перейти в корзину
                             </button>
                         </div>
                     </div>

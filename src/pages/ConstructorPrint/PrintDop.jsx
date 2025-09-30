@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import usePrintStore from "../../app/state/usePrintStore";
+import { useBasketStore } from '../../app/state/useBasketStore'; // <-- Import Basket Store
 import { useNavigate } from "react-router";
 
 export default function PrintDop() {
-    // Получаем состояние и функции из Zustand
-    const { quantity, price, cart, addDopItem, removeDopItem, dopItems } = usePrintStore();
+    
+    // Получаем данные и действия из Print Store
+    const { quantity, price, cart, addDopItem, removeDopItem, dopItems, clearPrintStore } = usePrintStore();
+    
+    // Получаем действие из Basket Store
+    const { addToBasket } = useBasketStore();
+
     const navigate = useNavigate();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,9 +23,33 @@ export default function PrintDop() {
         { id: 4, name: 'Набор эклеров 6 шт.', description: 'Тропический и яркий вкус. Отлично подходит для лета.', image: '/Mnk/mnk.15.svg', price: 450 },
     ];
 
-    // Вычисляем общую стоимость
+   
     const dopTotal = dopItems.reduce((sum, item) => sum + item.price, 0);
     const finalPrice = price + dopTotal;
+
+    // --- Логика добавления в корзину ---
+    const handleAddToBasket = () => {
+        const kitItem = {
+            id: `print-${Date.now()}`, // Уникальный ID для каждого собранного набора
+            name: `Набор для печати (${quantity} шт.)`,
+            price: finalPrice, // Итоговая цена набора
+            quantity: 1, // Добавляем один набор
+            img: '/Mnk/mnk.15.svg', // Используем стандартное изображение для коробки
+            isComplex: true, // Флаг, указывающий, что это сложный/собранный набор
+            details: {
+                kitType: 'print',
+                printItems: cart, // Слоты для печати
+                dopItems: dopItems // Дополнительные товары
+            }
+        };
+
+        addToBasket(kitItem);
+        // Очищаем состояние конструктора после добавления в корзину
+        clearPrintStore();
+
+        setIsModalOpen(false);
+        setIsModalOpenMini(true);
+    };
 
     return (
         <div>
@@ -59,7 +89,7 @@ export default function PrintDop() {
                                         {flavor.price} руб
                                     </div>
                                     <div className="flex justify-center items-center">
-                                        {/* Кнопка "-" больше не нужна, так как мы будем удалять элементы из боковой панели */}
+                                       
                                         <button
                                             className="w-6 h-6 flex items-center justify-center border border-gray-300 text-gray-600 rounded-md hover:bg-gray-200"
                                             onClick={() => addDopItem(flavor)}>+</button>
@@ -107,7 +137,7 @@ export default function PrintDop() {
                     </div>
                 </div>
 
-                {/* Модальные окна */}
+                
                 {isModalOpen && (
                     <div className="fixed inset-0 bg-gray-400 bg-opacity-50 flex items-center justify-center z-50">
                         <div className="bg-white p-6 md:p-8 lg:p-10 rounded-lg shadow-lg max-w-md w-full relative">
@@ -119,13 +149,13 @@ export default function PrintDop() {
                             <h2 className="text-2xl font-medium text-center mb-6">Ваш выбор:</h2>
                             <div className="flex flex-col space-y-4 text-gray-700">
                                 <div className="flex justify-between items-start font-medium text-lg">
-                                    <span>Набор макарон {quantity} шт.</span>
+                                    <span>Набор для печати {quantity} шт.</span>
                                     <span className="text-red-500 whitespace-nowrap">{price} руб.</span>
                                 </div>
                                 <ul className="text-base text-gray-600 pl-4 space-y-1">
                                     {cart.map((item, index) => (
                                         <li key={item.id}>
-                                            {item.name} {item.count} шт. {/* Здесь нужно добавить логику для отображения имени и количества макаронов */}
+                                            {item.name} {item.count} шт.
                                         </li>
                                     ))}
                                 </ul>
@@ -143,7 +173,7 @@ export default function PrintDop() {
                                 <span className="text-red-500">{finalPrice} руб.</span>
                             </div>
                             <div className="flex flex-col sm:flex-row gap-4 mt-6">
-                                <button onClick={() => { setIsModalOpenMini(true); setIsModalOpen(false); }} className="flex-1 border-2 border-blue-400 text-blue-500 font-medium py-3 rounded-lg hover:bg-blue-50 transition duration-300">
+                                <button onClick={handleAddToBasket} className="flex-1 border-2 border-blue-400 text-blue-500 font-medium py-3 rounded-lg hover:bg-blue-50 transition duration-300">
                                     Добавить в корзину
                                 </button>
                                 <button onClick={() => navigate("/basket")} className="flex-1 bg-[#E7426A] text-white font-medium py-3 rounded-lg hover:bg-red-600 transition duration-300">
@@ -162,7 +192,7 @@ export default function PrintDop() {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             </button>
-                            <h2 className="text-2xl font-bold text-center mb-6">Готово!</h2>
+                            <h2 className="text-2xl font-bold text-center mb-6">Набор добавлен в корзину!</h2>
                             <div className="flex flex-col sm:flex-row gap-4 mt-6">
                                 <button onClick={() => navigate("/")} className="flex-1 border-2 border-blue-400 text-blue-500 font-medium py-3 rounded-lg hover:bg-blue-50 transition duration-300">
                                     На главную

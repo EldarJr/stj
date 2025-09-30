@@ -179,7 +179,7 @@ export default function App() {
         </div>
 
 
-        <div className="flex flex-col md:hidden w-full">
+        <div className="flex flex-col md:hidden w-full"> 
           {[
             "Готовые наборы",
             "Набор с индивидуальной печатью",
