@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import usePrintStore from "../../app/state/usePrintStore";
-import { useBasketStore } from '../../app/state/useBasketStore'; // <-- Import Basket Store
+import { useBasketStore } from '../../app/state/useBasketStore'; 
 import { useNavigate } from "react-router";
 
 export default function PrintDop() {
     
-    // Получаем данные и действия из Print Store
+    
     const { quantity, price, cart, addDopItem, removeDopItem, dopItems, clearPrintStore } = usePrintStore();
     
-    // Получаем действие из Basket Store
+    
     const { addToBasket } = useBasketStore();
 
     const navigate = useNavigate();
@@ -27,24 +27,24 @@ export default function PrintDop() {
     const dopTotal = dopItems.reduce((sum, item) => sum + item.price, 0);
     const finalPrice = price + dopTotal;
 
-    // --- Логика добавления в корзину ---
+    
     const handleAddToBasket = () => {
         const kitItem = {
-            id: `print-${Date.now()}`, // Уникальный ID для каждого собранного набора
+            id: `print-${Date.now()}`, 
             name: `Набор для печати (${quantity} шт.)`,
-            price: finalPrice, // Итоговая цена набора
-            quantity: 1, // Добавляем один набор
-            img: '/Mnk/mnk.15.svg', // Используем стандартное изображение для коробки
-            isComplex: true, // Флаг, указывающий, что это сложный/собранный набор
+            price: finalPrice, 
+            quantity: 1, 
+            img: '/Mnk/mnk.15.svg', 
+            isComplex: true, 
             details: {
                 kitType: 'print',
-                printItems: cart, // Слоты для печати
-                dopItems: dopItems // Дополнительные товары
+                printItems: cart, 
+                dopItems: dopItems
             }
         };
 
         addToBasket(kitItem);
-        // Очищаем состояние конструктора после добавления в корзину
+        
         clearPrintStore();
 
         setIsModalOpen(false);
