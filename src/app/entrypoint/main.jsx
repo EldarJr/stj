@@ -76,10 +76,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/estUs" element={<EstimateUs />} />
         <Route path="/estUsTwo" element={<EstimateUs2 />} />
         <Route path="/th" element={<Th />} />
-
-
-
-
       </Routes>
 
       <Footer />
